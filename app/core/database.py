@@ -1,10 +1,10 @@
 import motor.motor_asyncio
 from bson.objectid import ObjectId
-from app.core.config import settings
+from app.core.config import db_settings
 
-client = motor.motor_asyncio.AsyncIOMotorClient(settings.DATABASE_URL)
+client = motor.motor_asyncio.AsyncIOMotorClient(db_settings.DATABASE_URL)
 
-database = client[settings.DATABASE_NAME]
+database = client[db_settings.DATABASE_NAME]
 
 
 def serialize_id(document):
@@ -26,8 +26,8 @@ async def get_document_by_id(collection_name, document_id):
 
 async def create_document(collection_name, document_data):
     collection = await get_collection(collection_name)
-    result = await collection.insert_one(document_data)
-    return serialize_id({"_id": result.inserted_id, **document_data})
+    result = await collection.insert_one({'msg': document_data})
+    return serialize_id({"_id": result.inserted_id, 'msg': document_data})
 
 
 async def update_document(collection_name, document_id, document_data):
