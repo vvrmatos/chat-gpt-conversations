@@ -5,6 +5,8 @@ from pydantic import BaseSettings
 class ChatGPTSettings(BaseSettings):
     API_KEY: str = os.getenv('OPENAI_KEY')
     MODEL: str = 'gpt-3.5-turbo'
+    CONVERSATION_HISTORY: str = ''
+    MAX_TOKENS: str = 4000
 
     class Config:
         env_file = '.env'

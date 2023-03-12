@@ -1,8 +1,7 @@
-import asyncio
-from core.chatgpt import get_response
+#!/usr/bin/env python3
+
+from core import chatgpt
 
 
-collection = input('Enter collection: ')
-message = input('Enter message: ')
-
-asyncio.run(get_response(collection=collection, message=message))
+if __name__ == '__main__':
+    chatgpt.start()
