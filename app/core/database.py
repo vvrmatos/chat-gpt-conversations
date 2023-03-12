@@ -1,6 +1,6 @@
 import motor.motor_asyncio
 from bson.objectid import ObjectId
-from app.core.config import db_settings
+from .config import db_settings
 
 client = motor.motor_asyncio.AsyncIOMotorClient(db_settings.DATABASE_URL)
 

@@ -2,6 +2,5 @@
 
 from core import chatgpt
 
-
 if __name__ == '__main__':
     chatgpt.start()
