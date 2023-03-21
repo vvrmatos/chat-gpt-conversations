@@ -9,6 +9,9 @@ from .config import gtp_settings
 from .database import create_document
 
 
+success_message = 'Saved successfully'
+bye_message = 'Bye!'
+
 def __set_gpt():
     if os.getenv('OPENAI_KEY'):
         openai.api_key = os.getenv('OPENAI_KEY')
@@ -29,8 +32,15 @@ async def get_response(choice, collection, user_prompt: str = ''):
                 size='1024x1024'
             )
             image_url = response['data'][0]['url']
-            await create_document(collection_name=collection, document_data=image_url)
             print(image_url)
+
+            user_input = input('Save Chat Response (Y/n)? ').lower()
+
+            if user_input or user_input[0] == 'y':
+                await create_document(collection_name=collection, document_data=image_url)
+                print(success_message)
+
+            print(bye_message)
 
         case 'chat completion':
             response = openai.ChatCompletion.create(
@@ -44,9 +54,15 @@ async def get_response(choice, collection, user_prompt: str = ''):
             for choice in response.choices:
                 result += choice.message.content
 
-            await create_document(collection_name=collection,
-                                  document_data=response.choices[0].get('message').get('content'))
             print(result)
+
+            user_input = input('Save Chat Response (y/n)? ').lower()
+            if user_input and user_input[0] == 'y':
+                await create_document(collection_name=collection,
+                                  document_data=response.choices[0].get('message').get('content'))
+                print(success_message)
+
+            print(bye_message)
 
 
 def start():
